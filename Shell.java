@@ -44,15 +44,14 @@ public class Shell
         case ' ':
           break;
         default:
-          sc = s.charAt(i);
-          ps = sc.toString();
-          for(i++; i < s.length() && s.charAt(i) != ' '; i++)
+          for(; i < s.length() && s.charAt(i) != ' '; i++)
           {
             sc = s.charAt(i);
             ps = ps.concat(sc.toString());
           }
-  
+
           argv.add(ps);
+          ps = new String();
       }
 
     return argv;
