@@ -1,12 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <unistd.h>
 #import <sys/wait.h>
-
-@interface Shell: NSObject
-- (int) shbins: (NSArray *) bcmd;
-- (void) shexec: (NSArray *) argv;
-- (NSArray *) parse: (NSString *) s;
-@end
+#import "Shell.h"
 
 @implementation NSString (getchar)
 - (NSString *) getCharFromStdin
@@ -44,7 +39,7 @@
 
         {
           NSMutableString *bdir = [NSMutableString new];
-          char *cstr;
+          const char *cstr;
           int j;
 
           for(j = 0; j < [bcmd count] - 1; j++)
@@ -65,7 +60,7 @@
 
 - (void) shexec: (NSArray *) argv
 {
-  char *shcmd[[argv count] + 1];
+  const char *shcmd[[argv count] + 1];
   int i;
 
   for(i = 0; i < [argv count]; i++)
