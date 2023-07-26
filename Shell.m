@@ -23,7 +23,7 @@
   int i;
 
   for(i = 0; i < [bcmds count]; i++)
-    if([[bcmd firstObject] isEqualTo: [bcmds objectAtIndex: i]])
+    if([[bcmd firstObject] isEqualToString: [bcmds objectAtIndex: i]])
     {
       switch(i)
       {
