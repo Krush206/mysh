@@ -2,12 +2,15 @@ import java.util.*;
 
 public class Shell
 {
+  public static native int changeDirectory(String s);
+
   public static void main(String[] args)
   {
     Scanner input = new Scanner(System.in);
     String cmd;
     ArrayList<String> argv;
 
+    System.loadLibrary("chdir");
     while(true)
     {
       System.out.print("> ");
@@ -19,6 +22,8 @@ public class Shell
       argv = parse(cmd);
 
       if(argv.isEmpty())
+        continue;
+      else if(shbins(argv))
         continue;
 
       shexec(argv);
@@ -38,6 +43,11 @@ public class Shell
         case ';':
           if(argv.isEmpty())
             break;
+          else if(shbins(argv))
+          {
+            argv.clear();
+            break;
+          }
           shexec(argv);
           argv.clear();
           break;
@@ -47,7 +57,7 @@ public class Shell
           for(; i < s.length() && s.charAt(i) != ' '; i++)
           {
             sc = s.charAt(i);
-            ps = ps.concat(sc.toString());
+            ps += sc.toString();
           }
 
           argv.add(ps);
@@ -73,5 +83,49 @@ public class Shell
     {
       System.out.println(e.getMessage());
     }
+  }
+
+  public static boolean shbins(ArrayList<String> bcmd)
+  {
+    String[] bcmds = { "exit", "chdir" };
+    int i;
+
+    for(i = 0; i < bcmds.length; i++)
+      if(bcmds[i].compareTo(bcmd.get(0)) == 0)
+      {
+        switch(i)
+        {
+          case 0:
+          {
+            Runtime shexit = Runtime.getRuntime();
+
+            shexit.exit(0);
+          }
+          case 1:
+          if(bcmd.size() == 1)
+          {
+            changeDirectory(System.getenv("HOME"));
+
+            return true;
+          }
+
+          {
+            String dir = new String();
+            int j;
+
+            for(j = 0; j < bcmd.size() - 1; j++)
+              if(j > 0)
+                dir += " " + bcmd.get(j + 1);
+              else
+                dir = bcmd.get(j + 1);
+            if(changeDirectory(dir) < 0)
+              System.err.println(dir + ": No such directory.");
+          }
+        }
+
+        return true;
+      }
+
+    return false;
   }
 }
