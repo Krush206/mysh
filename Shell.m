@@ -17,7 +17,7 @@
 @end
 
 @implementation Shell
-- (int) shbins: (NSArray *) bcmd
+- (BOOL) shbins: (NSArray *) bcmd
 {
   NSArray *bcmds = @[ @"exit", @"chdir" ];
   int i;
@@ -34,7 +34,7 @@
         {
           chdir(getenv("HOME"));
 
-          return 1;
+          return YES;
         }
 
         {
@@ -52,10 +52,10 @@
         }
       }
 
-      return 1;
+      return YES;
     }
 
-  return 0;
+  return NO;
 }
 
 - (void) shexec: (NSArray *) argv
