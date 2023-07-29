@@ -31,14 +31,10 @@
           exit(0);
         case 1:
         if([bcmd count] == 1)
-        {
           chdir(getenv("HOME"));
-
-          return YES;
-        }
-
+        else
         {
-          NSMutableString *bdir = [NSMutableString new];
+          NSMutableString *bdir;
           const char *cstr;
           int j;
 
@@ -46,7 +42,7 @@
             if(j)
               [bdir appendFormat: @" %@", [bcmd objectAtIndex: j + 1]];
             else
-              [bdir appendFormat: @"%@", [bcmd objectAtIndex: j + 1]];
+              bdir = [[NSMutableString alloc] initWithString: [bcmd objectAtIndex: j + 1]];
           if(chdir(cstr = [bdir UTF8String]) < 0)
             fprintf(stderr, "%s: No such directory.\n", cstr);
         }
