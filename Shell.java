@@ -32,7 +32,6 @@ public class Shell
 
   public static ArrayList<String> parse(String s)
   {
-    Character sc;
     String ps = new String();
     ArrayList<String> argv = new ArrayList<String>();
     int i;
@@ -55,10 +54,7 @@ public class Shell
           break;
         default:
           for(; i < s.length() && s.charAt(i) != ' '; i++)
-          {
-            sc = s.charAt(i);
-            ps += sc.toString();
-          }
+            ps += s.charAt(i);
 
           argv.add(ps);
           ps = new String();
@@ -103,19 +99,15 @@ public class Shell
           }
           case 1:
           if(bcmd.size() == 1)
-          {
             changeDirectory(System.getenv("HOME"));
-
-            return true;
-          }
-
+          else
           {
             String dir = new String();
             int j;
 
             for(j = 0; j < bcmd.size() - 1; j++)
               if(j > 0)
-                dir += " " + bcmd.get(j + 1);
+                dir += ' ' + bcmd.get(j + 1);
               else
                 dir = bcmd.get(j + 1);
             if(changeDirectory(dir) < 0)
