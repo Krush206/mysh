@@ -2,7 +2,7 @@
 
 public class Shell
 {
-  public static void Main(String[] args)
+  public static void Main()
   {
     List<String> argv;
     String cmd;
@@ -63,7 +63,7 @@ public class Shell
     }
     catch(Exception e)
     {
-      Console.Write(e.Message);
+      Console.WriteLine(e.Message);
     }
   }
 }
